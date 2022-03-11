@@ -1,5 +1,5 @@
 <?php
-include '../controller/productsClass.php';
+include './controller/productsClass.php';
 $productsQuery = new Products();
 session_start();
 $_SESSION['products'] = $productsQuery->getAllRows();

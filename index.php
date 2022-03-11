@@ -1,14 +1,14 @@
 <?php
-include './templates/head.php'
+include './templates/head.php';
 ?>
 
-<body>
+<body class="bg-lighter_blue overflow-x-hidden">
     <?php
-    include './templates/header.php'
+    include './templates/header.php';
+    include './templates/products.php';
     ?>
-    <h1 class="bg-red-300 text-3xl">
-        Hi every one
-    </h1>
+
+
 </body>
 
 </html>
