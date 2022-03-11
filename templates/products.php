@@ -1,3 +1,22 @@
+<?php
+include './controller/productsClass.php';
+$productsQuery = new Products();
+
+session_start();
+
+$_SESSION['products'] = $productsQuery->getAllRows();
+$products  = isset($_SESSION['products']) ? $_SESSION['products'] : [];
+if (isset($_SESSION['alert'])) {
+?>
+<div class="fixed bottom-0 left-0   p-3  bg-blue-400 text-white" style="bottom:30px;">
+    <?php
+        echo $_SESSION['alert'];
+        ?>
+</div>
+<?php
+    unset($_SESSION['alert']);
+}
+?>
 <section class="my-20  px-11 md:px-20 ">
     <div class="flex w-full ">
 
@@ -11,18 +30,19 @@
         </aside>
         <div class="products w-12/12 md:w-9/12 flex justify-start flex-wrap ">
             <?php
-            include './controller/productsClass.php';
-            $productsQuery = new Products();
-            session_start();
-            $_SESSION['products'] = $productsQuery->getAllRows();
-            $products  = isset($_SESSION['products']) ? $_SESSION['products'] : [];
-            foreach ($products as $row) {
+
+
+            foreach ($products as $key => $row) {
             ?>
             <div class=" relative w-72 h-72 mx-2 my-2 rounded-3xl border-8 border-white ">
                 <!-- the cart icon -->
                 <div style="right:-26px;top:-20px"
                     class="absolute z-20 flex justify-center items-center  overflow-hidden w-12 h-12 cursor-pointer bg-red-400 hover:bg-red-300 p-2 rounded-full border-4 border-white transition-all">
-                    <a>
+                    <a href="cart.process.php?do=add&productid=
+                    <?php
+                    echo $key;
+                    ?>
+                    ">
                         <ion-icon class="text-white text-xl" name="cart-outline"></ion-icon>
                     </a>
                 </div>
@@ -60,15 +80,21 @@
 
                         <div
                             class="flex mx-10 justify-between px-1 py-1 justify-items-end justify-self-end border-2 border-blue-400  rounded-full">
-                            <button
+                            <a href='products.php'
                                 class="font-bold text-white p-1 w-8 h-8 border-2 border-white bg-blue-400 rounded-full flex justify-center items-center">
                                 +
-                            </button>
-                            <div>4</div>
-                            <button
-                                class="font-bold text-white p-1 w-8 h-8 border-2 border-white bg-blue-400 rounded-full flex justify-center items-center">
+                            </a>
+                            <div>
+                                <?php
+                                    $session_index  = "product_qty_" . $row['product_id'];
+                                    $_SESSION[$session_index] = 1;
+                                    echo  $_SESSION[$session_index];
+                                    ?>
+                            </div>
+                            <a
+                                class="font-bold texae p-1 w-8 h-8 border-2 border-white bg-blue-400 rounded-full flex justify-center items-center">
                                 -
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
