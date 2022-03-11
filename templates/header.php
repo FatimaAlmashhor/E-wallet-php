@@ -1,4 +1,4 @@
-<nav class="w-screen h-16 fixed ">
+<nav class="w-screen h-16 fixed top-0 z-50">
     <div class=" px-11 md:px-28 flex w-full h-full justify-between items-center">
         <div class="logo">
             EWALLET
