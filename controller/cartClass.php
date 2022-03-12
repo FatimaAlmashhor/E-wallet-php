@@ -42,7 +42,14 @@ class Cart
             print_r($this->lineItems);
         }
     }
-
+    function increaseItemQty($lineItemId)
+    {
+        foreach ($this->lineItems as $key => $items) {
+            if ($items['product_id'] == $lineItemId) {
+                $this->lineItems[$key]['qty'] += 1;
+            }
+        }
+    }
     function getLineItems()
     {
         return  $this->lineItems;

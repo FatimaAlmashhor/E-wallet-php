@@ -10,7 +10,7 @@ $cartQuery = new Cart(
 );
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    if (isset($_GET['do']) || $_GET['do']   == 'add') {
+    if (isset($_GET['do']) && $_GET['do']   == 'add') {
         $currentProduct = $products->getAllRows();
         // print_r($currentProduct[trim($_GET['productid'])]);
 
@@ -19,5 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         // unset($_SESSION['cart']);
         $_SESSION['alert'] = 'The product added successfuly';
         header('location:index.php');
+        // unset($_SESSION['cart']);
+    }
+    if (isset($_GET['do']) && $_GET['do']   == 'inc') {
+        // $currentProduct = $products->getAllRows();
+        // print_r($currentProduct[trim($_GET['productid'])]);
+
+        $cartQuery->increaseItemQty(trim($_GET['productid']));
+        $_SESSION['cart'] =  $cartQuery->getLineItems();
+        header('location:cart.php');
     }
 }
