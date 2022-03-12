@@ -1,7 +1,10 @@
 <?php
 include './templates/head.php';
-session_start();
-$cart = isset($_SESSION['cart']) ? isset($_SESSION['cart']) : [];
+include './controller/cartClass.php';
+// session_start();
+
+$cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+$total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
 ?>
 
 <body class="bg-lighter_blue overflow-x-hidden">
@@ -14,7 +17,11 @@ $cart = isset($_SESSION['cart']) ? isset($_SESSION['cart']) : [];
                 <div class="p-3   rounded-full border-8 border-white none_border__top_left">
                     <div class="flex justify-between">
                         <h1 class="text-2xl">Total Price : </h1>
-                        <p class="text-2xl ">$456</p>
+                        <p class="text-2xl ">$
+                            <?php
+                            echo $total;
+                            ?>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -54,16 +61,29 @@ $cart = isset($_SESSION['cart']) ? isset($_SESSION['cart']) : [];
                                         echo  $row['qty'];
                                         ?>
                                 </div>
-                                <a
+                                <a href='cart.process.php?do=dec&productid=<?php
+                                                                                echo $row['product_id'];
+                                                                                ?>'
                                     class="font-bold texae p-1 w-8 h-8 border-2 border-white bg-blue-400 rounded-full flex justify-center items-center">
                                     -
                                 </a>
                             </div>
                         </div>
-                        <div class="flex <?php
-                                                if ($key % 2 == 0)  echo 'flex-row-reverse';
-                                                else echo '';
-                                                ?> ">
+                        <div class="flex relative <?php
+                                                        if ($key % 2 == 0)  echo 'flex-row-reverse';
+                                                        else echo '';
+                                                        ?> ">
+                            <a style="top:-26px;  <?php
+                                                        if ($key % 2 == 0)  echo 'right:-20px';
+                                                        else echo 'left:-20px';
+                                                        ?> ""
+                                class=" absolute z-20 flex justify-center items-center overflow-hidden w-12 h-12
+                                cursor-pointer bg-red-400 hover:bg-red-300 p-2 rounded-full border-4 border-white
+                                transition-all"
+                                href='cart.process.php?do=delete&productid=<?php echo $key;
+                                                                                                                                                                                                                                                                ?>'>
+                                <ion-icon class="text-white font-bold" name="close-outline"></ion-icon>
+                            </a>
                             <div class="rounded-full border-4 border-blue-400  overflow-hidden  w-24 h-24">
                                 <img class='w-full h-fit object-contain' <?php
 

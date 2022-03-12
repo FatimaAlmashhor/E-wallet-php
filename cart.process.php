@@ -12,11 +12,12 @@ $cartQuery = new Cart(
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_GET['do']) && $_GET['do']   == 'add') {
         $currentProduct = $products->getAllRows();
-        // print_r($currentProduct[trim($_GET['productid'])]);
+        // print_r($products);
 
         $cartQuery->setLineItem($currentProduct[trim($_GET['productid'])]);
         $_SESSION['cart'] =  $cartQuery->getLineItems();
-        // unset($_SESSION['cart']);
+        $_SESSION['total'] =  $cartQuery->totalPrice;
+
         $_SESSION['alert'] = 'The product added successfuly';
         header('location:index.php');
         // unset($_SESSION['cart']);
@@ -27,6 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
         $cartQuery->increaseItemQty(trim($_GET['productid']));
         $_SESSION['cart'] =  $cartQuery->getLineItems();
+        $_SESSION['total'] =  $cartQuery->totalPrice;
+        header('location:cart.php');
+    }
+    if (isset($_GET['do']) && $_GET['do']   == 'dec') {
+        $cartQuery->descreaseItemQty(trim($_GET['productid']));
+        $_SESSION['cart'] =  $cartQuery->getLineItems();
+        $_SESSION['total'] =  $cartQuery->totalPrice;
+        header('location:cart.php');
+    }
+
+    if (isset($_GET['do']) && $_GET['do']   == 'delete') {
+        $cartQuery->deleteLineItem(trim($_GET['productid']));
+        $_SESSION['cart'] =  $cartQuery->getLineItems();
+        $_SESSION['total'] =  $cartQuery->totalPrice;
         header('location:cart.php');
     }
 }
