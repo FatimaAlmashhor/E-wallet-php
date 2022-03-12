@@ -5,16 +5,22 @@ include './controller/cartClass.php';
 
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
+
 ?>
 
 <body class="bg-lighter_blue overflow-x-hidden">
     <?php
     include './templates/header.php';
+    if (isset($_SESSION['show_model'])) {
+        include './model.php';
+        // echo '<h1>The model should work</h1>';
+        // unset($_SESSION['show_model']);
+    }
     ?>
     <div class="my-20 w-screan h-full  px-11 md:px-20">
         <div class="w-full h-full flex">
             <div class=" w-0 hidden lg:block lg:w-4/12 mx-4 mt-12">
-                <div class="p-3   rounded-full border-8 border-white none_border__top_left">
+                <div class="p-3   rounded-3xl border-4 border-white none_border__top_left">
                     <div class="flex justify-between">
                         <h1 class="text-2xl">Total Price : </h1>
                         <p class="text-2xl ">$
@@ -23,6 +29,12 @@ $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
                             ?>
                         </p>
                     </div>
+                    <a href="payment.process.php"
+                        class="w-full cursor-pointer flex justify-center bg-blue-400 hover:bg-blue-300 mt-3 p-3 rounded-full border-4 border-white ">
+                        <p class="text-xl text-center text-white">
+                            Place Order
+                        </p>
+                    </a>
                 </div>
             </div>
 
@@ -64,7 +76,7 @@ $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
                                 <a href='cart.process.php?do=dec&productid=<?php
                                                                                 echo $row['product_id'];
                                                                                 ?>'
-                                    class="font-bold texae p-1 w-8 h-8 border-2 border-white bg-blue-400 rounded-full flex justify-center items-center">
+                                    class="font-bold text-white p-1 w-8 h-8 border-2 border-white bg-blue-400 rounded-full flex justify-center items-center">
                                     -
                                 </a>
                             </div>
