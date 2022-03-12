@@ -11,10 +11,8 @@ $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
 <body class="bg-lighter_blue overflow-x-hidden">
     <?php
     include './templates/header.php';
-    if (isset($_SESSION['show_model'])) {
+    if (isset($_SESSION['show_model']) || isset($_SESSION['payment_state'])) {
         include './model.php';
-        // echo '<h1>The model should work</h1>';
-        // unset($_SESSION['show_model']);
     }
     ?>
     <div class="my-20 w-screan h-full  px-11 md:px-20">
@@ -29,7 +27,9 @@ $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
                             ?>
                         </p>
                     </div>
-                    <a href="payment.process.php"
+                    <a href="payment.process.php?totle=<?php
+                                                        echo $total;
+                                                        ?>"
                         class="w-full cursor-pointer flex justify-center bg-blue-400 hover:bg-blue-300 mt-3 p-3 rounded-full border-4 border-white ">
                         <p class="text-xl text-center text-white">
                             Place Order

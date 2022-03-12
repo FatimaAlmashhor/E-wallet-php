@@ -2,14 +2,17 @@
 session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     if (isset($_SESSION['auth'])) {
-        echo 'authintication';
+        //   check the use ballence
+        $_SESSION['payment_state'] = 'prepare';
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     } else {
         echo 'Login please';
         $_SESSION['show_model'] = 'login';
-        header('location:cart.php');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
     if (isset($_GET['do']) && $_GET['do'] == 'closeModel') {
         unset($_SESSION['show_model']);
+        unset($_SESSION['payment_state']);
         // header('location:index.php');
     }
     if (isset($_GET['do']) && $_GET['do'] == 'registerModel') {
