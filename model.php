@@ -72,8 +72,8 @@
         if (isset($_SESSION['payment_state']) && $_SESSION['payment_state'] == 'prepare') {
         ?>
         <div>
-            <h1>The total Priceis = <?php
-                                        echo $_SESSION['total'];
+            <h1>The total price = <?php
+                                        echo (isset($_SESSION['total']) ? isset($_SESSION['total']) : '0YE');
                                         ?></h1>
         </div>
         <?php

@@ -3,14 +3,14 @@ include_once  'connection.php';
 class Auth extends Connection
 {
     private $conn;
-    private $walletToken;
+    private $user;
     function __construct()
     {
         $this->conn = $this->connecton();
     }
     function login($email)
     {
-        $sql = $this->conn->prepare("SELECT auth_password 
+        $sql = $this->conn->prepare("SELECT auth_id ,auth_password 
         FROM auth WHERE auth_email = :email
         ");
 
@@ -18,7 +18,7 @@ class Auth extends Connection
             ':email' =>  $email
         ]);
         $row = $sql->fetch();
-        print_r($row);
+        $this->user = $row['auth_id'];
         return $row;
     }
     function register($fullname, $email, $password)
@@ -35,13 +35,14 @@ class Auth extends Connection
                 ':created' => date("Y/m/d")
             ]);
             $auth_id = $this->conn->lastInsertId();
-            $result = $this->createWallet($auth_id);
+            $this->user = $auth_id;
+            $result = $this->createWallet();
             return  $result;
         } catch (\Throwable $th) {
             return false;
         }
     }
-    function createWallet($auth_id)
+    function createWallet()
     {
         try {
             // create wallet for the user
@@ -53,7 +54,7 @@ class Auth extends Connection
                  VALUES
                   (:auth ,:created ,:walletNo , true )");
             $sql->execute([
-                ':auth' => $auth_id,
+                ':auth' => $this->user,
                 ':created' => date("Y/m/d"),
                 ':walletNo' => $token,
             ]);
@@ -65,13 +66,8 @@ class Auth extends Connection
             return false;
         }
     }
-    function getToekn()
+    function getUser()
     {
-        return $this->walletToken;
-    }
-    function setToken()
-    {
-        // $token = bin2hex(random_bytes(16));
-        // $this->token = $token;
+        return $this->user;
     }
 }
