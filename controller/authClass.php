@@ -3,7 +3,7 @@ include_once  'connection.php';
 class Auth extends Connection
 {
     private $conn;
-    private $token;
+    private $walletToken;
     function __construct()
     {
         $this->conn = $this->connecton();
@@ -34,30 +34,44 @@ class Auth extends Connection
                 ':pass' => $password,
                 ':created' => date("Y/m/d")
             ]);
-            $test = $this->conn->lastInsertId();
-            print_r($test);
-            return true;
+            $auth_id = $this->conn->lastInsertId();
+            $result = $this->createWallet($auth_id);
+            return  $result;
         } catch (\Throwable $th) {
             return false;
         }
     }
-    function createWallet()
+    function createWallet($auth_id)
     {
         try {
             // create wallet for the user
             $length = 78;
             $token = bin2hex(random_bytes($length));
+            $this->walletToken = $token;
+            $sql = $this->conn->prepare("INSERT INTO  wallet 
+                (auth_id  , create_time  , wallet_number  , is_active )
+                 VALUES
+                  (:auth ,:created ,:walletNo , true )");
+            $sql->execute([
+                ':auth' => $auth_id,
+                ':created' => date("Y/m/d"),
+                ':walletNo' => $token,
+            ]);
+            $this->conn->lastInsertId();
+
+            return true;
         } catch (\Throwable $th) {
             //throw $th;
+            return false;
         }
     }
     function getToekn()
     {
-        return $this->token;
+        return $this->walletToken;
     }
     function setToken()
     {
-        $token = bin2hex(random_bytes(16));
-        $this->token = $token;
+        // $token = bin2hex(random_bytes(16));
+        // $this->token = $token;
     }
 }
