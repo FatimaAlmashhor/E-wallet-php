@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $decrypted = password_verify($password, $checkUse['auth_password']);
                 $_SESSION['auth'] = $email;
                 unset($_SESSION['show_model']);
-                $_SESSION['payment_state'] = 'done';
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
             } else {
                 $_SESSION['auth_alart'] = 'No user found . If you new here you can create new account ';
@@ -40,5 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
             }
         }
+    }
+}
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    if (isset($_GET['do']) &&  $_GET['do'] == 'logout') {
+        echo "<h1>logout</h2>";
+        unset($_SESSION['auth']);
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 }

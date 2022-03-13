@@ -2,8 +2,10 @@
 include './controller/productsClass.php';
 $productsQuery = new Products();
 
-session_start();
-
+// session_start();
+if (isset($_SESSION['show_model']) || isset($_SESSION['payment_state'])) {
+    include './model.php';
+}
 $_SESSION['products'] = $productsQuery->getAllRows();
 $products  = isset($_SESSION['products']) ? $_SESSION['products'] : [];
 if (isset($_SESSION['alert'])) {
@@ -78,24 +80,7 @@ if (isset($_SESSION['alert'])) {
                                 ?>
                         </p>
 
-                        <div
-                            class="flex mx-10 justify-between px-1 py-1 justify-items-end justify-self-end border-2 border-blue-400  rounded-full">
-                            <a href='products.php'
-                                class="font-bold text-white p-1 w-8 h-8 border-2 border-white bg-blue-400 rounded-full flex justify-center items-center">
-                                +
-                            </a>
-                            <div>
-                                <?php
-                                    $session_index  = "product_qty_" . $row['product_id'];
-                                    $_SESSION[$session_index] = 1;
-                                    echo  $_SESSION[$session_index];
-                                    ?>
-                            </div>
-                            <a
-                                class="font-bold texae p-1 w-8 h-8 border-2 border-white bg-blue-400 rounded-full flex justify-center items-center">
-                                -
-                            </a>
-                        </div>
+
                     </div>
                 </div>
             </div>
