@@ -80,20 +80,37 @@
         }
         if (isset($_SESSION['payment_state']) && $_SESSION['payment_state']['state'] == 'setmoney') {
         ?>
-        <form action='auth.process.php?do=addBalance' method="post">
-            <lable>Balance</lable>
-            <input placeholder="Enter your balance" name='balance' type="number" />
-            <button type="submit">
+        <h2 class="text-xl my-2">your balance of the <strong> <?php echo $_SESSION['auth'][0]['wallet_currency'];
+                                                                    ?> </strong> currency is : <span
+                class="font-bold text-red-400">
+
+                <?php echo  $_SESSION['auth'][0]['wallet_balance'] ?>
+            </span>
+        </h2>
+        <form action='payment.process.php?do=addBalance' method='POST'>
+            <lable class=" ">Enter More money : </lable>
+            <input class="border-2 border-gray-600 rounded p-2" placeholder="Enter your balance" name='balance'
+                type="number" />
+            <button type="submit" class=" p-2 bg-blue-400 rounded text-white">
                 Submit
             </button>
         </form>
         <?php
         }
         if (isset($_SESSION['payment_state']) && $_SESSION['payment_state']['state'] == 'done') {
-            echo "
-                <div>Payment done </div>
-            ";
-        }
+        ?>
+        <img src='./public/images/14422-done.gif' /> <?php
+                                                        }
+                                                        if (isset($_SESSION['payment_state']) && $_SESSION['payment_state']['state'] == 'checkout') {
+                                                            ?>
+        <h1>You about to pay <?php echo $_SESSION['total']; ?>
+            Are you sure want to continue ?
+        </h1>
+        <a href="checkup.php?do=checkup$result=yes">Yes</a>
+        <a href="payment.process.php?do=checkout&result=no">
+            No </a>
+        <?php
+                                                        }
         ?>
     </div>
 </div>

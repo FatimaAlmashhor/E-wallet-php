@@ -34,7 +34,7 @@
                     <div id='auth_dropdown' class="absolute right-0 bottom-0 h-fit w-40  rounded-md bg-white"
                         style="bottom: -100px;">
                         <ul>
-                            <a href='auth.process.php?do=showWallet'
+                            <a href='payment.process.php?do=showBalance'
                                 class=" p-2 cursor-pointer border-b border-gray-400 hover:bg-gray-200">Your
                                 wallet
                             </a>

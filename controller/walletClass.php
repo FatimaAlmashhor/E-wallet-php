@@ -34,7 +34,7 @@ class Wallet
     {
         return  self::$walletToken;
     }
-    function setBalance($balance, $walletNo)
+    function  setBalance($balance, $walletNo)
     {
         try {
             $sql = $this->conn->prepare("UPDATE  wallet SET  wallet_balance = :balance 

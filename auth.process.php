@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 print_r(Wallet::getWallets());
                 unset($_SESSION['show_model']);
                 unset($_SESSION['payment_state']);
-                // header('Location: ' . $_SERVER['HTTP_REFERER']);
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
 
                 // if the precess above is not work fine 
             } else {
@@ -55,17 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 unset($_SESSION['show_model']);
                 unset($_SESSION['payment_state']);
             }
-        }
-    }
-    if (isset($_GET['do']) &&  $_GET['do']  == 'addBalance') {
-        if (isset($_POST['balance']) && isset($_SESSION['auth'][0]['wallet_balance'])) {
-            echo "<h1>something</h1>";
-            $newPrice = $_POST['balance'] + $_SESSION['auth'][0]['wallet_balance'];
-            echo "<p> total price" . $newPrice . "</p>";
-            $_SESSION['auth'][0]['wallet_balance'] = $newPrice;
-            $walletQuery->setBalance($newPrice, $_SESSION['auth'][0]['wallet_number']);
-            // $walletQuery->selectWallet();
-            print_r($_SESSION['auth']);
         }
     }
 }
