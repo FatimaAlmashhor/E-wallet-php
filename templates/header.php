@@ -2,9 +2,9 @@
 
 ?><nav class="w-screen h-16 fixed top-0 z-40">
     <div class=" px-11 md:px-28 flex w-full h-full justify-between items-center">
-        <div class="logo">
-            EWALLET
-        </div>
+        <a href="index.php" class="logo text-xl">
+            E-WALLET
+        </a>
         <div class=''>
             <ul class="flex">
                 <?php
@@ -31,17 +31,17 @@
                         class=" flex justify-center items-center mx-3 w-12 h-12 cursor-pointer bg-primary_blue hover:bg-blue-400 p-2 rounded-full border-4 border-white transition-all">
                         <ion-icon class="text-white text-xl" name="person-circle-outline"></ion-icon>
                     </button>
-                    <div id='auth_dropdown' class="absolute right-0 bottom-0 h-fit w-40  rounded-md bg-white"
-                        style="bottom: -100px;">
-                        <ul>
+                    <div id='auth_dropdown' class=" hidden absolute right-0 bottom-0 h-fit w-40  rounded-md bg-white"
+                        style="bottom: -87px;">
+                        <div class="w-full flex flex-col ">
                             <a href='payment.process.php?do=showBalance'
-                                class=" p-2 cursor-pointer border-b border-gray-400 hover:bg-gray-200">Your
+                                class="w-full p-2 cursor-pointer border-b border-gray-400 hover:bg-gray-200">Your
                                 wallet
                             </a>
                             <a href='auth.process.php?do=logout'
                                 class="w-full p-2 cursor-pointer hover:bg-gray-200">Logout
                             </a>
-                        </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -66,7 +66,7 @@
 let dropdown = document.querySelector('#auth_dropdown');
 
 function showDropdown() {
-    console.log('clicked me');
-    dropdown.style.displey = 'none';
+    console.log(dropdown);
+    dropdown.classList.toggle('hidden');
 }
 </script>
