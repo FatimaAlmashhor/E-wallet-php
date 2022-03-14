@@ -38,16 +38,16 @@ if (isset($_SESSION['alert'])) {
             ?>
             <div class=" relative w-72 h-72 mx-2 my-2 rounded-3xl border-8 border-white ">
                 <!-- the cart icon -->
-                <div style="right:-26px;top:-20px"
-                    class="absolute z-20 flex justify-center items-center  overflow-hidden w-12 h-12 cursor-pointer bg-red-400 hover:bg-red-300 p-2 rounded-full border-4 border-white transition-all">
-                    <a href="cart.process.php?do=add&productid=
+                <a href="cart.process.php?do=add&productid=
                     <?php
                     echo $key;
                     ?>
-                    ">
+                    " style="right:-26px;top:-20px"
+                    class="absolute z-20 flex justify-center items-center  overflow-hidden w-12 h-12 cursor-pointer bg-red-400 hover:bg-red-300 p-2 rounded-full border-4 border-white transition-all">
+                    <div>
                         <ion-icon class="text-white text-xl" name="cart-outline"></ion-icon>
-                    </a>
-                </div>
+                    </div>
+                </a>
                 <div class="w-full h-full relative rounded-3xl ">
 
                     <div class="w-full h-3/5 ">
