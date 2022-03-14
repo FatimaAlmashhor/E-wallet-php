@@ -5,16 +5,14 @@ class Wallet extends Connection
     private $conn;
     private $walletToken = [];
     private $user;
-    function __construct($user)
+    function __construct()
+    {
+        $this->conn = $this->connecton();
+    }
+    function setWallet($user)
     {
         $this->user = $user;
-        $this->conn = $this->connecton();
         $this->selectWallet();
-    }
-
-    function getWallets()
-    {
-        return $this->walletToken;
     }
     function selectWallet()
     {
@@ -26,18 +24,38 @@ class Wallet extends Connection
             ':auth' =>  $this->user
         ]);
         $rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
-        foreach ($rows as $row)
-            array_push($this->walletToken, $row['wallet_number']);
+        foreach ($rows as $row) {
+            $this->walletToken = array('wallet_currency' => $row['wallet_currency'], 'wallet_number' => $row['wallet_number'], 'wallet_balance' => $row['wallet_balance']);
+        }
     }
-    function getBallence()
-    {
-        $sql = $this->conn->prepare("SELECT wallet_ballence
-        FROM wallet WHERE auth_id = :auth
-        ");
 
-        $sql->execute([
-            ':auth' =>  $this->user
-        ]);
-        $rows = $sql->fetchAll();
+    function getWallets()
+    {
+        print_r($this->walletToken);
+        return $this->walletToken;
+    }
+    function setBalance($balance, $walletNo)
+    {
+        try {
+            $sql = $this->conn->prepare("UPDATE  wallet SET  wallet_balance = :balance 
+                    
+    WHERE wallet_number = :wallet_number ");
+
+            $sql->execute([
+                ':balance' => $balance,
+                ':wallet_number' => $walletNo
+                // ':auth' =>  $this->user
+            ]);
+            print_r($this->walletToken);
+            foreach ($this->walletToken as $key => $row) {
+                if ($row['wallet_number'] == $walletNo) {
+                    $this->walletToken[$key]['wallet_balance'] += $balance;
+                }
+            }
+            print_r($this->walletToken);
+        } catch (\Throwable $th) {
+            //throw $th;
+            print_r($th);
+        }
     }
 }

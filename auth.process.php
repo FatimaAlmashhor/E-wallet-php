@@ -3,6 +3,7 @@ include './controller/authClass.php';
 include './controller/walletClass.php';
 session_start();
 $authQuery = new Auth;
+$walletQuery = new Wallet();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     unset($_SESSION['auth_alart']);
@@ -15,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // login and create the wallet 
             $checkUse = $authQuery->login($email);
             $user = $authQuery->getUser();
-            $walletQuery = new Wallet($user);
+            $walletQuery->setWallet($user);
 
             // check if the process about is done correctly 
             if ($checkUse) {
@@ -44,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $crypted = password_hash($password, PASSWORD_DEFAULT);
                 $done = $authQuery->register($fullname, $email, $crypted);
                 $user = $authQuery->getUser();
-                $walletQuery = new Wallet($user);
+                $walletQuery->setWallet($user);
                 if (!$done) {
                     $_SESSION['auth_alart'] = 'This email already exist';
                 } else {
@@ -54,6 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 unset($_SESSION['show_model']);
                 unset($_SESSION['payment_state']);
             }
+        }
+    }
+    if (isset($_GET['do']) &&  $_GET['do']  == 'addBalance') {
+        if (isset($_POST['balance']) && isset($_SESSION['auth']['wallet_balance'])) {
+            $walletQuery->setBalance($_POST['balance'], $_SESSION['auth']['wallet_number']);
+            print_r($_POST['balance']);
         }
     }
 }

@@ -21,13 +21,14 @@ $total = isset($_SESSION['total']) ? $_SESSION['total'] : 0;
                 <div class="p-3   rounded-3xl border-4 border-white none_border__top_left">
                     <div class="flex justify-between">
                         <h1 class="text-2xl">Total Price : </h1>
-                        <p class="text-2xl ">YR
+                        <p class="text-2xl ">
                             <?php
                             echo $total;
                             ?>
+                            YR
                         </p>
                     </div>
-                    <a href="payment.process.php?do=placeOrder&totle=<?php
+                    <a href="payment.process.php?do=placeOrder&total=<?php
                                                                         echo $total;
                                                                         ?>"
                         class="w-full cursor-pointer flex justify-center bg-blue-400 hover:bg-blue-300 mt-3 p-3 rounded-full border-4 border-white ">

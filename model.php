@@ -58,7 +58,7 @@
                 <?php
                     }
                     ?>
-                <button class="my-2 p-2 rounded bg-blue-400 text-white" type="submit"> Login</button>
+                <button class="my-2 p-2 rounded bg-blue-400 text-white" type="submit"> Regsiter</button>
             </form>
             <p>
                 You do not have an account ?<a href='payment.process.php?do=loginModel' class="text-blue-400">
@@ -69,21 +69,27 @@
         <?php } ?>
 
         <?php
-        if (isset($_SESSION['payment_state']) && $_SESSION['payment_state'] == 'prepare') {
+        if (isset($_SESSION['payment_state']) && $_SESSION['payment_state']['state'] == 'prepare') {
         ?>
         <div>
-            <h1>The total price = <?php
-                                        echo (isset($_SESSION['total']) ? isset($_SESSION['total']) : '0YE');
-                                        ?></h1>
+            <h1><?php
+                    echo $_SESSION['payment_state']['content'];
+                    ?></h1>
         </div>
         <?php
         }
-        if (isset($_SESSION['payment_state']) && $_SESSION['payment_state'] == 'setmoney') {
-            echo "
-                <div>Add money </div>
-            ";
+        if (isset($_SESSION['payment_state']) && $_SESSION['payment_state']['state'] == 'setmoney') {
+        ?>
+        <form action='auth.process.php?do=addBalance' method="post">
+            <lable>Balance</lable>
+            <input placeholder="Enter your balance" name='balance' type="number" />
+            <button type="submit">
+                Submit
+            </button>
+        </form>
+        <?php
         }
-        if (isset($_SESSION['payment_state']) && $_SESSION['payment_state'] == 'done') {
+        if (isset($_SESSION['payment_state']) && $_SESSION['payment_state']['state'] == 'done') {
             echo "
                 <div>Payment done </div>
             ";
