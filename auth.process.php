@@ -21,11 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // check if the process about is done correctly 
             if ($checkUse) {
                 $decrypted = password_verify($password, $checkUse['auth_password']);
-                $_SESSION['auth'] = $walletQuery->getWallets();
+                $_SESSION['auth'] = Wallet::getWallets();
+                print_r(Wallet::getWallets());
                 unset($_SESSION['show_model']);
                 unset($_SESSION['payment_state']);
-
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                // header('Location: ' . $_SERVER['HTTP_REFERER']);
 
                 // if the precess above is not work fine 
             } else {
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if (!$done) {
                     $_SESSION['auth_alart'] = 'This email already exist';
                 } else {
-                    $_SESSION['auth'] = $walletQuery->getWallets();
+                    $_SESSION['auth'] = Wallet::getWallets();
                 }
                 header('Location: ' . $_SERVER['HTTP_REFERER']);
                 unset($_SESSION['show_model']);
@@ -58,9 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
     if (isset($_GET['do']) &&  $_GET['do']  == 'addBalance') {
-        if (isset($_POST['balance']) && isset($_SESSION['auth']['wallet_balance'])) {
-            $walletQuery->setBalance($_POST['balance'], $_SESSION['auth']['wallet_number']);
-            print_r($_POST['balance']);
+        if (isset($_POST['balance']) && isset($_SESSION['auth'][0]['wallet_balance'])) {
+            echo "<h1>something</h1>";
+            $newPrice = $_POST['balance'] + $_SESSION['auth'][0]['wallet_balance'];
+            echo "<p> total price" . $newPrice . "</p>";
+            $_SESSION['auth'][0]['wallet_balance'] = $newPrice;
+            $walletQuery->setBalance($newPrice, $_SESSION['auth'][0]['wallet_number']);
+            // $walletQuery->selectWallet();
+            print_r($_SESSION['auth']);
         }
     }
 }
@@ -69,5 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         echo "<h1>logout</h2>";
         unset($_SESSION['auth']);
         header('Location: ' . $_SERVER['HTTP_REFERER']);
+    }
+    if (isset($_GET['do']) &&  $_GET['do']  == 'showWallet') {
+        $balance = Wallet::getWallets();
+        print_r($balance);
     }
 }

@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 // if not then ask for add ballence 
                 if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
                     if (isset($_SESSION['auth'])) {
-                        if ($_SESSION['auth']['wallet_balance'] >= $_GET['total']) {
+                        if ($_SESSION['auth'][0]['wallet_balance'] >= $_GET['total']) {
 
                             $message = 'you can go to the next step';
                             $_SESSION['payment_state'] = ['state' => 'prepare', 'content' => $message];

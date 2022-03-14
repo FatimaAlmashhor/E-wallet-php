@@ -1,13 +1,14 @@
 <?php
-include_once  'connection.php';
-class Wallet extends Connection
+require_once('DB.php');
+class Wallet
 {
     private $conn;
-    private $walletToken = [];
+    private static $walletToken = [];
     private $user;
     function __construct()
     {
-        $this->conn = $this->connecton();
+        $conn = new DB();
+        $this->conn = $conn->getConn();
     }
     function setWallet($user)
     {
@@ -24,15 +25,14 @@ class Wallet extends Connection
             ':auth' =>  $this->user
         ]);
         $rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
-        foreach ($rows as $row) {
-            $this->walletToken = array('wallet_currency' => $row['wallet_currency'], 'wallet_number' => $row['wallet_number'], 'wallet_balance' => $row['wallet_balance']);
+        foreach ($rows as $key => $row) {
+            self::$walletToken[$key] = array('wallet_currency' => $row['wallet_currency'], 'wallet_number' => $row['wallet_number'], 'wallet_balance' => $row['wallet_balance']);
         }
     }
 
-    function getWallets()
+    public static function getWallets()
     {
-        print_r($this->walletToken);
-        return $this->walletToken;
+        return  self::$walletToken;
     }
     function setBalance($balance, $walletNo)
     {
@@ -46,13 +46,12 @@ class Wallet extends Connection
                 ':wallet_number' => $walletNo
                 // ':auth' =>  $this->user
             ]);
-            print_r($this->walletToken);
-            foreach ($this->walletToken as $key => $row) {
-                if ($row['wallet_number'] == $walletNo) {
-                    $this->walletToken[$key]['wallet_balance'] += $balance;
-                }
-            }
-            print_r($this->walletToken);
+            // print_r(self::$walletToken);
+            // foreach (self::$walletToken as $key => $row) {
+            //     if ($row['wallet_number'] == $walletNo) {
+            //         self::$walletToken[$key]['wallet_balance'] += $balance;
+            //     }
+            // }
         } catch (\Throwable $th) {
             //throw $th;
             print_r($th);

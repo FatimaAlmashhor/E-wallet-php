@@ -1,13 +1,14 @@
 <?php
-include_once  'connection.php';
-include_once  'DBInterface.php';
-class Products extends Connection implements CRUDInterface
+require_once('DB.php');
+require_once('DBInterface.php');
+class Products implements CRUDInterface
 {
     private $conn;
     private $products;
     function __construct()
     {
-        $this->conn = $this->connecton();
+        $conn = new DB();
+        $this->conn = $conn->getConn();
         $sql = $this->conn->prepare("SELECT * 
             FROM products
         ");

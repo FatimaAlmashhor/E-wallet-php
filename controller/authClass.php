@@ -1,12 +1,13 @@
 <?php
-include_once  'connection.php';
-class Auth extends Connection
+require_once('DB.php');
+class Auth
 {
     private $conn;
     private $user;
     function __construct()
     {
-        $this->conn = $this->connecton();
+        $conn = new DB();
+        $this->conn = $conn->getConn();
     }
     function login($email)
     {

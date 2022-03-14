@@ -1,24 +1,24 @@
 <?php
-class Connection
+class DB
 {
     private $host       = 'mysql:host=localhost;dbname=e-wallet'; //or localhost
     private $database   = 'e-wallet';
     private $port       = 8081;
     private $user       = 'root';
     private $password   = '';
+    private $conn;
 
-    public function  connecton()
+    function __construct()
     {
         try {
-            $conn  = new PDO($this->host,  $this->user, $this->password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $conn;
+            $this->conn  = new PDO($this->host,  $this->user, $this->password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo 'Failed To Connected' . $e;
         }
     }
-    function test()
+    function getConn()
     {
-        print_r($this->user);
+        return $this->conn;
     }
 }
