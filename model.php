@@ -75,6 +75,11 @@
             <h1><?php
                     echo $_SESSION['payment_state']['content'];
                     ?></h1>
+            <?php
+                if (isset($_SESSION['payment_state']['yesBtn'])) {
+                    echo "<a href=" . $_SESSION['payment_state']['yesBtn'] . ">Yes</a>";
+                }
+                ?>
         </div>
         <?php
         }

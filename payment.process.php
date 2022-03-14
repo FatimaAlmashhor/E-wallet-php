@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('./controller/walletClass.php');
+$walletQuery = new Wallet;
 function closeModel()
 {
     unset($_SESSION['show_model']);
@@ -68,6 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             closeModel();
         }
     }
+    if (isset($_GET['do']) &&  $_GET['do']  == 'showDone') {
+        $_SESSION['payment_state']['state'] = 'done';
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+    }
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_GET['do']) &&  $_GET['do']  == 'addBalance') {
@@ -75,10 +80,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $newPrice = $_POST['balance'] + $_SESSION['auth'][0]['wallet_balance'];
             echo "<p> total price" . $newPrice . "</p>";
             $_SESSION['auth'][0]['wallet_balance'] = $newPrice;
-            $walletQuery = new Wallet;
+
             $walletQuery->setBalance($newPrice, $_SESSION['auth'][0]['wallet_number']);
             print_r($_SESSION['auth']);
             $_SESSION['payment_state']['state'] = 'done';
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
+    }
+    if (isset($_GET['do']) &&  $_GET['do']  == 'checkout') {
+        if (isset($_GET['verfiy'])) {
+            $balance = $_SESSION['auth'][0]['wallet_balance'] - $_SESSION['total'];
+            $message = "the currecnt balance is " . $_SESSION['auth'][0]['wallet_balance'] . " the total that will pay for is" . $_SESSION['total'] . " your balance after the pay is  " . $balance;
+            $_SESSION['auth'][0]['wallet_balance'] =  $balance;
+            $_SESSION['payment_state'] = ['state' => 'prepare', 'content' => $message, 'yesBtn' => 'payment.process.php?do=showDone'];
+            $walletQuery->pay($balance, $_SESSION['auth'][0]['wallet_number']);
+            unset($_SESSION['cart']);
+            unset($_SESSION['total']);
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
     }

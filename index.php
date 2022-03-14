@@ -6,7 +6,7 @@ include './templates/head.php';
     <?php
     session_start();
     include './templates/header.php';
-    if (isset($_SESSION['show_model'])) {
+    if (isset($_SESSION['show_model']) || isset($_SESSION['payment_state'])) {
         include './model.php';
     }
     include './templates/products.php';

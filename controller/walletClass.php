@@ -46,13 +46,24 @@ class Wallet
                 ':wallet_number' => $walletNo
                 // ':auth' =>  $this->user
             ]);
-            // print_r(self::$walletToken);
-            // foreach (self::$walletToken as $key => $row) {
-            //     if ($row['wallet_number'] == $walletNo) {
-            //         self::$walletToken[$key]['wallet_balance'] += $balance;
-            //     }
-            // }
         } catch (\Throwable $th) {
+            //throw $th;
+            print_r($th);
+        }
+    }
+    function  pay($balance, $walletNo)
+    {
+        try {
+            $sql = $this->conn->prepare("UPDATE  wallet SET  wallet_balance = :balance 
+                    
+    WHERE wallet_number = :wallet_number ");
+
+            $sql->execute([
+                ':balance' => $balance,
+                ':wallet_number' => $walletNo
+                // ':auth' =>  $this->user
+            ]);
+        } catch (PDOException $th) {
             //throw $th;
             print_r($th);
         }
