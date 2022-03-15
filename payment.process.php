@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $_SESSION['payment_state']['state'] = 'done';
         $check = $walletQuery->pay($balance, $_SESSION['auth'][0]['wallet_number']);
         if ($check) {
-            $walletQuery->setOrder($_SESSION['total'], $_SESSION['auth'][0]['wallet_number']);
+            $walletQuery->setOrder($_SESSION['total'], $_SESSION['auth'][0]['wallet_number'], $_SESSION['auth'][0]['wallet_balance']);
         }
         unset($_SESSION['cart']);
         unset($_SESSION['total']);

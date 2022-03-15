@@ -70,17 +70,30 @@ class Wallet
             return false;
         }
     }
-    function setOrder($total, $walletNo)
+    function setOrder($total, $walletNo, $balance)
     {
-        $sql = $this->conn->prepare("INSERT INTO orders (wallet_id  , created_at , total ) VALUES (
-            (SELECT wallet_id FROM wallet WHERE wallet_number = :wallet_number ) , :created , :total)
-                
-        WHERE wallet_number = :wallet_number ");
+        $sql = $this->conn->prepare("INSERT INTO orders (wallet_id  , created_at , total_price , current_balance  ) VALUES (
+            (SELECT wallet_id FROM wallet WHERE wallet_number = :wallet_number ) , :created , :total , :balance)");
 
         $sql->execute([
             ':total' => $total,
             ':wallet_number' => $walletNo,
-            ':created' =>  date("Y/m/d")
+            ':created' =>  date("Y/m/d"),
+            ':balance' => $balance
         ]);
+    }
+    function getOrders()
+    {
+        try {
+            $sql = $this->conn->prepare("SELECT *
+        FROM orders 
+        ");
+
+            $sql->execute();
+            $rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
+            return $rows;
+        } catch (PDOException $th) {
+            print_r($th);
+        }
     }
 }

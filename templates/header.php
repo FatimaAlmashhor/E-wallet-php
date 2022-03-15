@@ -32,11 +32,15 @@
                         <ion-icon class="text-white text-xl" name="person-circle-outline"></ion-icon>
                     </button>
                     <div id='auth_dropdown' class=" hidden absolute right-0 bottom-0 h-fit w-40  rounded-md bg-white"
-                        style="bottom: -87px;">
+                        style="bottom: -130px;">
                         <div class="w-full flex flex-col ">
                             <a href='payment.process.php?do=showBalance'
                                 class="w-full p-2 cursor-pointer border-b border-gray-400 hover:bg-gray-200">Your
                                 wallet
+                            </a>
+                            <a href='orders.php'
+                                class="w-full p-2 cursor-pointer border-b border-gray-400 hover:bg-gray-200">Your
+                                orders
                             </a>
                             <a href='auth.process.php?do=logout'
                                 class="w-full p-2 cursor-pointer hover:bg-gray-200">Logout
