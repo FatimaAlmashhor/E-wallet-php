@@ -63,9 +63,24 @@ class Wallet
                 ':wallet_number' => $walletNo
                 // ':auth' =>  $this->user
             ]);
+            return true;
         } catch (PDOException $th) {
             //throw $th;
             print_r($th);
+            return false;
         }
+    }
+    function setOrder($total, $walletNo)
+    {
+        $sql = $this->conn->prepare("INSERT INTO orders (wallet_id  , created_at , total ) VALUES (
+            (SELECT wallet_id FROM wallet WHERE wallet_number = :wallet_number ) , :created , :total)
+                
+        WHERE wallet_number = :wallet_number ");
+
+        $sql->execute([
+            ':total' => $total,
+            ':wallet_number' => $walletNo,
+            ':created' =>  date("Y/m/d")
+        ]);
     }
 }

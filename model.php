@@ -75,16 +75,23 @@
             <h1><?php
                     echo $_SESSION['payment_state']['content'];
                     ?></h1>
-            <?php
-                if (isset($_SESSION['payment_state']['yesBtn'])) {
-                    echo "<a href=" . $_SESSION['payment_state']['yesBtn'] . ">Yes</a>";
-                }
-                ?>
+            <div class="mt-2">
+                <?php
+                    if (isset($_SESSION['payment_state']['yesBtn'])) {
+                        echo "<a class='mx-1 mt-4 bg-blue-500 text-white p-2 rounded' href=" . $_SESSION['payment_state']['yesBtn'] . ">Yes</a>";
+                    }
+                    ?>
+            </div>
         </div>
         <?php
         }
         if (isset($_SESSION['payment_state']) && $_SESSION['payment_state']['state'] == 'setmoney') {
         ?>
+        <h1 class="my-3 text-lg border-b border-b-gray-300 pb-1 text-red-500">
+            <?php
+                if (isset($_SESSION['payment_state']['content']))
+                    echo $_SESSION['payment_state']['content'] ?>
+        </h1>
         <h2 class="text-xl my-2">your balance of the <strong> <?php echo $_SESSION['auth'][0]['wallet_currency'];
                                                                     ?> </strong> currency is : <span
                 class="font-bold text-red-400">
@@ -108,12 +115,14 @@
                                                         }
                                                         if (isset($_SESSION['payment_state']) && $_SESSION['payment_state']['state'] == 'checkout') {
                                                             ?>
-        <h1>You about to pay <?php echo $_SESSION['total']; ?>
+        <h1>You about to pay <strong>$<?php echo $_SESSION['total']; ?></strong>
             Are you sure want to continue ?
         </h1>
-        <a href="checkup.php?do=checkup$result=yes">Yes</a>
-        <a href="payment.process.php?do=checkout&result=no">
-            No </a>
+        <div class="mt-3">
+            <a class="mx-1 mt-4 bg-blue-500 text-white p-2 rounded" href="checkup.php?do=checkup$result=yes">Yes</a>
+            <a class="mx-1  mt-4 bg-red-500 text-white p-2 rounded " href="payment.process.php?do=checkout&result=no">
+                No </a>
+        </div>
         <?php
                                                         }
         ?>

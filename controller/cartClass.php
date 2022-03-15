@@ -26,7 +26,7 @@ class Cart
         }
         if ($check) {
             // increase the qty
-            if ($this->lineItems[$index]['qty'] <  $this->lineItems[$index]['product_qty'])
+            if ($this->lineItems[$index]['qty'] <=  $this->lineItems[$index]['product_qty'])
                 $existProduct['qty'] += 1;
             $this->lineItems[$index] = $existProduct;
         } else {
@@ -39,7 +39,7 @@ class Cart
             //     }
             // }
             $existProduct = $lineItem;
-            if ($this->lineItems[$index]['qty'] <  $this->lineItems[$index]['product_qty'])
+            if ($this->lineItems[$index]['qty'] <=  $this->lineItems[$index]['product_qty'])
                 $existProduct['qty'] = 1;
             else
                 $existProduct['qty'] = 0;

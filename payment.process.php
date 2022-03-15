@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                             $message = 'you can go to the next step';
                             $_SESSION['payment_state'] = ['state' => 'checkout', 'content' => $message];
                         } else {
+                            $message = 'You have not enught moneny please add more . it is free :) ';
                             $_SESSION['payment_state'] = ['state' => 'setmoney', 'content' => $message];
                         }
                     }
@@ -70,7 +71,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         }
     }
     if (isset($_GET['do']) &&  $_GET['do']  == 'showDone') {
+        $balance = $_SESSION['auth'][0]['wallet_balance'] - $_SESSION['total'];
+        $_SESSION['auth'][0]['wallet_balance'] =  $balance;
         $_SESSION['payment_state']['state'] = 'done';
+        $check = $walletQuery->pay($balance, $_SESSION['auth'][0]['wallet_number']);
+        if ($check) {
+            $walletQuery->setOrder($_SESSION['total'], $_SESSION['auth'][0]['wallet_number']);
+        }
+        unset($_SESSION['cart']);
+        unset($_SESSION['total']);
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 }
@@ -90,12 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_GET['do']) &&  $_GET['do']  == 'checkout') {
         if (isset($_GET['verfiy'])) {
             $balance = $_SESSION['auth'][0]['wallet_balance'] - $_SESSION['total'];
-            $message = "the currecnt balance is " . $_SESSION['auth'][0]['wallet_balance'] . " the total that will pay for is" . $_SESSION['total'] . " your balance after the pay is  " . $balance;
-            $_SESSION['auth'][0]['wallet_balance'] =  $balance;
+            $message = "the currecnt balance is $" . $_SESSION['auth'][0]['wallet_balance'] . " the total that will pay for is $" . $_SESSION['total'] . " your balance after the pay is $" . $balance;
             $_SESSION['payment_state'] = ['state' => 'prepare', 'content' => $message, 'yesBtn' => 'payment.process.php?do=showDone'];
-            $walletQuery->pay($balance, $_SESSION['auth'][0]['wallet_number']);
-            unset($_SESSION['cart']);
-            unset($_SESSION['total']);
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
     }
